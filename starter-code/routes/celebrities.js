@@ -31,6 +31,23 @@ router.post('/celebrities', (req, res) => {
     console.log(`${celebrity.name} was added to the database. Hooray!`);
     res.redirect(`/celebrities/${celebrity._id}`)
   })
+  .catch(err => {
+    console.log("There was an error addding a new celeb: ", err);
+    res.render('/celebrities/new');
+  })
+})
+
+router.post('/celebrities/:id/delete', (req,res, next) => {
+  console.log("This is /celebrities/:id/delete");
+  Celebrity.findByIdAndRemove({ _id: req.params.id })
+  .then (() => {
+    res.redirect('/celebrities');
+  })
+  .catch(err => {
+    next();
+    return err;
+  })
+
 })
 
 router.get('/celebrities/:id', (req,res) => {
@@ -45,6 +62,7 @@ router.get('/celebrities/:id', (req,res) => {
     console.log('Error while finding one celeb:', err)
   })
 })
+
 
 
 
