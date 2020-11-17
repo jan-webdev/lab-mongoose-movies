@@ -3,7 +3,16 @@ const router = express.Router();
 const Movie = require('../models/Movie');
 const Celebrity = require('../models/Celebrity');
 
-// router.get('/celebrities', (req, res) => {
+router.get('/movies', (req, res) => {
+  Movie.find().populate('cast')
+  .then(movies => {
+      console.log("finding all the movies: ", movies);
+      res.render('movies', {movies})
+  })
+  .catch(err => {
+      console.log('An error occured while routing to /movies ', err);
+  })
+})
 //   Celebrity.find()
 //     .then(celebrities => {
 //       console.log("celebrities:", celebrities);
