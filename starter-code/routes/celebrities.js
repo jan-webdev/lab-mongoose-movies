@@ -13,6 +13,26 @@ router.get('/celebrities', (req, res) => {
     })
 });
 
+router.get('/celebrities/new', (req,res) => {
+  console.log("This is celebrities/new");
+  res.render('celebrities/new');
+})
+
+router.post('/celebrities', (req, res) => {
+  console.log("Adding a new celebrity")
+  const {name, occupation, catchPhrase} = req.body;
+  console.log(name, occupation, catchPhrase)
+  Celebrity.create({
+    name,
+    occupation,
+    catchPhrase
+  })
+  .then (celebrity => {
+    console.log(`${celebrity.name} was added to the database. Hooray!`);
+    res.redirect(`/celebrities/${celebrity._id}`)
+  })
+})
+
 router.get('/celebrities/:id', (req,res) => {
   const celebrityID = req.params.id;
   console.log("One Celeb");
@@ -25,6 +45,8 @@ router.get('/celebrities/:id', (req,res) => {
     console.log('Error while finding one celeb:', err)
   })
 })
+
+
 
 
 // router.get('/books', (req, res) => {
